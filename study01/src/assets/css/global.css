@@ -1,0 +1,5 @@
+/* 去掉router-link下划线，导航菜单使用超链接不是明智选择 */
+.router-link-active {
+	text-decoration: none;
+}
+
