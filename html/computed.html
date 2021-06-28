@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算属性</title>
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="./css/common.css"/>
+	</head>
+	<body>
+		
+		<h4>计算属性</h4>
+		
+		<div id='app'>
+			<p>方法获取当前时间：{{getNow1()}}</p>
+			<p>计算属性获取当前时间：{{getNow2}}</p>
+			<button type="button" @click="invoke">调用获取时间的方法和计算属性（计算属性结果会被缓存）</button>
+		</div>
+		
+		
+		<script>
+			// 相当于 VIEWMODEL层,实现层VM
+			var app = new Vue({
+				el : '#app',
+				data : {
+					plans:[
+						{id:1,name:'学习'},
+						{id:2,name:'买菜'},
+						{id:3,name:'煮饭'},
+						{id:4,name:'洗碗'},
+						{id:5,name:'学习'},
+					],
+					axiosData:{
+						name: '',
+						url: '',
+						page: null,
+						isNonProfit: null,
+						address: {
+							
+						},
+						links: [
+							
+						]
+					},
+					username:'',
+					checked:true,
+					selected:'SSDFSD',
+					checkedNames:[],
+					
+				},
+				// 写法与mounted:function(){}一样
+				// mounted只会执行一次，html被挂载后调用
+				mounted(){
+					axios.get('./datas/data.json')
+					.then(resp=>console.log(this.axiosData=resp.data));
+					// .then(function(resp){
+					// 	this.axiosData=resp.data;
+					// });
+				},
+				methods:{
+					getNow1(){
+						const now = new Date();
+						return now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+					},
+					invoke(){
+						alert('getNow1='+this.getNow1() + '\n\r' + 'getNow2='+this.getNow2);
+					}
+				},
+				computed:{
+					getNow2:function(){
+						const now = new Date();
+						return now.getUTCFullYear() + '-' + (now.getUTCMonth()+1) + '-' + now.getUTCDate() +  ' ' + now.getHours() + ':' + now.getUTCMinutes() + ':' + now.getUTCSeconds();
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

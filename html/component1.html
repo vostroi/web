@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VUE组件学习</title>
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		
+	</head>
+	<body>
+		<div id='app'>
+				<ol>
+					<plan-item 
+						v-for="item in plans" 
+						v-bind:plandata="item" 
+						v-bind:key="item.id"
+					></plan-item>
+				</ol>
+		</div>
+		<script>
+			// 定义一个组件, 组件名lan-item
+			Vue.component('plan-item',{
+				// 组件接收参数,相当于组件自定义了一个属性叫plandata （有大写字母居然报错）
+				props:['plandata'],
+				// 组件的内容
+				template:'<li>{{plandata.name}}</li>'
+			})
+			
+			// 相当于 VIEWMODEL层,实现层VM
+			var app = new Vue({
+				el : '#app',
+				data : {
+					plans:[
+						{id:1,name:'学习'},
+						{id:2,name:'买菜'},
+						{id:3,name:'煮饭'},
+						{id:4,name:'洗碗'},
+						{id:5,name:'学习'},
+					]
+				}
+			});
+		</script>
+	</body>
+</html>

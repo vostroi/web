@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Axios异步通信</title>
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="./css/common.css"/>
+	</head>
+	<body>
+		
+		<h4>Axios实现异步通信</h4>
+		<p>CDN引入axios</p>
+		<p>准备JSON数据data.json，模拟后台返回数据</p>
+		
+		<div id='app'>
+			name:<span>{{axiosData.name}}</span><br/>
+			url:<a v-bind:href="axiosData.url" target="_blank">{{axiosData.url}}</a><br/>
+			page:<span>{{axiosData.page}}</span><br/>
+			isNonProfit:<span>{{axiosData.isNonProfit}}</span><br/>
+			address:<span>{{axiosData.address}}</span><br/>
+			links:<span>{{axiosData.links}}</span><br/>
+		</div>
+		
+		
+		
+		<script>
+			
+			
+			// 相当于 VIEWMODEL层,实现层VM
+			var app = new Vue({
+				el : '#app',
+				data : {
+					plans:[
+						{id:1,name:'学习'},
+						{id:2,name:'买菜'},
+						{id:3,name:'煮饭'},
+						{id:4,name:'洗碗'},
+						{id:5,name:'学习'},
+					],
+					axiosData:{
+						name: '',
+						url: '',
+						page: null,
+						isNonProfit: null,
+						address: {
+							
+						},
+						links: [
+							
+						]
+					}
+				},
+				// 写法与mounted:function(){}一样
+				// mounted只会执行一次，html被挂载后调用
+				mounted(){
+					axios.get('./datas/data.json')
+					.then(resp=>console.log(this.axiosData=resp.data));
+					// .then(function(resp){
+					// 	this.axiosData=resp.data;
+					// });
+				}
+			});
+		</script>
+	</body>
+</html>

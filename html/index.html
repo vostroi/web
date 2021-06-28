@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>第一个VUE页面</title>
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="./css/common.css"/>
+	</head>
+	<body>
+		<!-- DIV 相当于 视图层V -->
+		<div id='app'>
+			<span>
+				前端架构模式：{{structure}}
+			</span> <br />
+			
+			<span>
+				声明式渲染，绑定DOM元素：{{ message }}
+			</span> <br />
+			
+			<span>
+				声明式渲染，绑定DOM元素，还可以在模板表达式中直接调用方法，计算属性（不用带上()）：{{ getReverseMessage}}
+			</span> <br />
+			
+			<span v-once>
+				声明式渲染，绑定DOM元素，v-once控制，只渲染一次，不会改变：{{ message }}
+			</span> <br />
+			
+			<span v-bind:title="info">
+				属性绑定：鼠标悬停几秒
+			</span> <br />
+			
+			<span>
+				条件渲染：<input type="button" @click="cansee = !cansee" value="点我试试"/>
+				<p v-if="cansee">你可以看见我了</p>
+			</span><br />
+			
+			<template >
+				循环控制：
+				<ol>
+					<li v-for="item in plans">
+						{{item.name}}
+					</li>
+				</ol>
+			</template><br />
+			
+			<!-- v-on指令添加事件监听 -->
+			<template >
+				处理用户输入：<button v-on:click="reverseMessage">点我反转字符串</button>
+			</template><br />
+			<!-- v-model 实现表单输入和数据之前的双向绑定 -->
+			<template >
+				
+				<input type="text" v-model="message"/>
+			</template><br />
+			
+			<!-- 只有在VUE实例被创建时就已经存在于data中的属性才是响应式的 -->
+			<template >
+				Object.freeze(obj)，VUE不再跟踪obj的变化：<button v-on:click="freeze">点我</button>
+				<p>{{ obj }}</p>
+			</template><br />
+			
+			<!-- v-for遍历数据，遍历对象属性 -->
+			<h4>建议在使用v-for时，为每个项提供key</h6>
+			<template >
+				v-for遍历数组：
+				<ol>
+					<li v-for="(item , idx) in plans" v-bind:key="item.id">index={{idx}},id={{item.id}},name={{item.name}}</li>
+				</ol>
+				v-for遍历一个对象的所有属性：
+				<ol>
+					<li v-for="(item , propertyName,idx) in customer" v-bind:key="propertyName" >index={{idx}},propertyName={{propertyName}},item={{item}}</li>
+				</ol>
+			</template><br />
+			
+			
+			
+		</div>
+		
+		<script>
+			// 相当于 VIEWMODEL层,实现层VM
+			// 下面的this指的是Vue实例，也就是app变量
+			var app = new Vue({
+				el : '#app',
+				// 关联 MODEL data 就是MODEL层M
+				data : {
+					structure : "MVVM",
+					message : "学习VUE的第一个应用",
+					info : "页面加载于" + new Date().toLocaleDateString(),
+					cansee : false,
+					plans:[
+						{id:1,name:'学习'},
+						{id:2,name:'买菜'},
+						{id:3,name:'煮饭'},
+						{id:4,name:'洗碗'},
+						{id:5,name:'学习'},
+					],
+					obj:{"lang":"java"},
+					customer:{
+						id:'1029239',
+						name:'老王',
+						weixin:'Pf3298cxnxdsj',
+						mobile:'18328882311'
+					}
+				},
+				methods:{
+					reverseMessage:function(){
+						this.message = this.message.split('').reverse().join('');
+					},
+					freeze:function(key,value){
+						// 会让 this.plans 变为只读 不能添加元素
+						Object.freeze(this.plans);
+						Object.freeze(this.obj);
+						this.obj.lang='12312';
+						this.obj={};
+						// this.plans.push({id:6,"name":"睡觉"});
+					},
+				},
+				// 计算属性会缓存
+				computed:{
+					// 计算属性 只要message没有发生改变，多次调用会返回上一次的结果 ， 而方法调用总会执行函数
+					getReverseMessage:function(){
+						return this.message = this.message.split('').reverse().join('');
+					},
+					getNow:function(){
+						return new Date().toLocaleDateString();
+					}
+					
+				},
+				watch:{
+					
+				}
+			});
+			
+			
+			
+		</script>
+	</body>
+<li</html>
